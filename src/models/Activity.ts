@@ -5,5 +5,5 @@ class Activity {
     deadline: Date;
     question: string;
     answer: string;
-    submissionDate: string;
+    submissionDate: Date;
 }
