@@ -1,7 +1,6 @@
 import IActivityRepository from "../IActivityRepository";
 
 export default class ActivityRepository implements IActivityRepository {
-    // crud in memory
     private activities: Activity[] = [];
 
     public async save(activity: Activity): Promise<Activity> {
