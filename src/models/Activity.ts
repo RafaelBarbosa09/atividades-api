@@ -1,9 +1,9 @@
 class Activity {
-    id: string;
+    id: string | null;
     idStudent: string;
-    idSubject: string;
+    idCourse: string;
     deadline: Date;
     question: string;
-    answer: string;
-    submissionDate: Date;
+    answer: string | null;
+    submissionDate: Date | null;
 }

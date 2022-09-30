@@ -1,0 +1,160 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "atividades",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/activities": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Activity"
+                                    }
+                                },
+                                "examples": {
+                                    "response": {
+                                        "value": [
+                                            {
+                                                "id": "some text",
+                                                "idStudent": "some text",
+                                                "idSubject": "some text",
+                                                "deadline": "2018-01-17",
+                                                "question": "some text",
+                                                "answer": "some text",
+                                                "submissionDate": "2018-01-17"
+                                            },
+                                            {
+                                                "id": "some text",
+                                                "idStudent": "some text",
+                                                "idSubject": "some text",
+                                                "deadline": "2018-01-17",
+                                                "question": "some text",
+                                                "answer": "some text",
+                                                "submissionDate": "2018-01-17"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "description": "activities"
+                    }
+                }
+            },
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateActivity"
+                            },
+                            "examples": {
+                                "response": {
+                                    "value": {
+                                        "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe065c0",
+                                        "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                        "deadLine": "2022-09-29",
+                                        "question": "Quanto é 1 + 1 ?"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Activity"
+                                },
+                                "examples": {
+                                    "response": {
+                                        "value": {
+                                            "id": "6a9bd064-03ad-4c0e-a9ef-7d608d50107d",
+                                            "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe065c0",
+                                            "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                            "deadline": "2022-09-29T00:00:00.000Z",
+                                            "question": "Quanto é 1 + 1 ?"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "activity"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Activity": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "idStudent": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "idSubject": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "deadline": {
+                        "format": "date",
+                        "description": "",
+                        "type": "string"
+                    },
+                    "question": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "answer": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "submissionDate": {
+                        "format": "date",
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateActivity": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "idStudent": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "idSubject": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "question": {
+                        "description": "",
+                        "type": "string"
+                    },
+                    "deadline": {
+                        "format": "date",
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
