@@ -26,7 +26,7 @@ export default class ActivityService {
         return activities;
     }
 
-    public async findById(id: string): Promise<Activity | undefined> {
+    public async findById(id: string): Promise<Activity> {
         const activity = await this.activityRepository.findById(id);
         return activity;
     }
@@ -38,5 +38,36 @@ export default class ActivityService {
             idStudent
         );
         return activities;
+    }
+
+    public async findUnfinishedActivities(idStudent: string): Promise<Activity[]> {
+        const activities = await this.activityRepository.findByStudentId(
+            idStudent
+        );
+        const unfinishedActivities = activities.filter(
+            (activity) => activity.answer === null || activity.submissionDate === null
+        );
+        return unfinishedActivities;
+    }
+
+    public async findFinishedActivities(idStudent: string): Promise<Activity[]> {
+        const activities = await this.activityRepository.findByStudentId(
+            idStudent
+        );
+        const finishedActivities = activities.filter(
+            (activity) => activity.answer !== null && activity.submissionDate !== null
+        );
+        return finishedActivities;
+    }
+
+    public async submitActivity(idStudent: string, idActivity: string, answer: string): Promise<Activity> {
+        const activity: Activity = await this.activityRepository.findById(idActivity);
+
+        const a = {
+            ...activity,
+            answer,
+            submissionDate: new Date()
+        }
+        return await this.activityRepository.update(a)
     }
 } 

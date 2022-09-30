@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 
 const activityService = new ActivityService(new ActivityRepository());
 
+// enfileira atividade
 app.post('/atividades', async (req, res) => {
     const server = new RabbitmqServer('amqp://guest:guest@localhost:5672')
     await server.start();
@@ -27,6 +28,7 @@ app.post('/atividades', async (req, res) => {
     res.json({ message: 'Atividade criada!' });
 });
 
+// cria atividade
 app.post('/activities/', async (req, res) => {
     const {
         idStudent,
@@ -51,9 +53,38 @@ app.post('/activities/', async (req, res) => {
     res.status(201).json(activityCreated);
 });
 
+// retorna todas as atividades
 app.get('/activities', async (req, res) => {
     const activities = await activityService.getAll();
     res.json(activities);
+});
+
+// busca atividade por id
+app.get('/activities/:id', async (req, res) => {
+    const { id } = req.params;
+    const activity = await activityService.findById(id);
+    res.json(activity);
+});
+
+// submete atividade
+app.put('/activities/:id', async (req, res) => {
+    const { id } = req.params;
+    const { idStudent, answer } = req.body;
+
+    const activity = await activityService.submitActivity(idStudent, id, answer)
+    res.json(activity);
+});
+
+app.get('/activities/unfinished/:idStudent', async (req, res) => {
+    const { idStudent } = req.params;
+    const unfinishedActivities = await activityService.findUnfinishedActivities(idStudent);
+    res.json(unfinishedActivities);
+});
+
+app.get('/activities/finished/:idStudent', async (req, res) => {
+    const { idStudent } = req.params;
+    const finishedActivities = await activityService.findFinishedActivities(idStudent);
+    res.json(finishedActivities);
 });
 
 app.listen(3000, () => {

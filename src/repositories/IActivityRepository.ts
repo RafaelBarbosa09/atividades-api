@@ -3,6 +3,6 @@ export default interface IActivityRepository {
     update(activity: Activity): Promise<Activity>;
     delete(id: string): Promise<void>;
     getAll(): Promise<Activity[]>;
-    findById(id: string): Promise<Activity | undefined>;
+    findById(id: string): Promise<Activity>;
     findByStudentId(idStudent: string): Promise<Activity[]>;
 }

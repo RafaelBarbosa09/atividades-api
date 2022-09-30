@@ -25,9 +25,9 @@ export default class ActivityRepository implements IActivityRepository {
         return this.activities;
     }
 
-    public async findById(id: string): Promise<Activity | undefined> {
+    public async findById(id: string): Promise<Activity> {
         const activity = this.activities.find((activity) => activity.id === id);
-        return activity;
+        return activity!!;
     }
 
     public async findByStudentId(

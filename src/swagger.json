@@ -18,25 +18,21 @@
                                     }
                                 },
                                 "examples": {
-                                    "response": {
+                                    "Activities": {
                                         "value": [
                                             {
-                                                "id": "some text",
-                                                "idStudent": "some text",
-                                                "idSubject": "some text",
-                                                "deadline": "2018-01-17",
-                                                "question": "some text",
-                                                "answer": "some text",
-                                                "submissionDate": "2018-01-17"
+                                                "id": "2123377a-3351-47a4-9958-e35e260fca77",
+                                                "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe065c0",
+                                                "deadline": "2022-09-29T00:00:00.000Z",
+                                                "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                                "question": "Quanto é 1 + 1 ?"
                                             },
                                             {
-                                                "id": "some text",
-                                                "idStudent": "some text",
-                                                "idSubject": "some text",
-                                                "deadline": "2018-01-17",
-                                                "question": "some text",
-                                                "answer": "some text",
-                                                "submissionDate": "2018-01-17"
+                                                "id": "d9cc4539-567a-4ed2-86ee-969e166546da",
+                                                "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe065c0",
+                                                "deadline": "2022-09-29T00:00:00.000Z",
+                                                "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                                "question": "Quanto é 2 + 2 ?"
                                             }
                                         ]
                                     }
@@ -55,12 +51,12 @@
                                 "$ref": "#/components/schemas/CreateActivity"
                             },
                             "examples": {
-                                "response": {
+                                "Activity": {
                                     "value": {
                                         "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe065c0",
                                         "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
-                                        "deadLine": "2022-09-29",
-                                        "question": "Quanto é 1 + 1 ?"
+                                        "deadline": "2022-09-29",
+                                        "question": "Quanto é 2 + 2 ?"
                                     }
                                 }
                             }
@@ -76,19 +72,19 @@
                                     "$ref": "#/components/schemas/Activity"
                                 },
                                 "examples": {
-                                    "response": {
+                                    "Activity": {
                                         "value": {
-                                            "id": "6a9bd064-03ad-4c0e-a9ef-7d608d50107d",
+                                            "id": "d9cc4539-567a-4ed2-86ee-969e166546da",
                                             "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe065c0",
                                             "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
                                             "deadline": "2022-09-29T00:00:00.000Z",
-                                            "question": "Quanto é 1 + 1 ?"
+                                            "question": "Quanto é 2 + 2 ?"
                                         }
                                     }
                                 }
                             }
                         },
-                        "description": "activity"
+                        "description": "Activity Created"
                     }
                 }
             }
@@ -108,12 +104,12 @@
                         "description": "",
                         "type": "string"
                     },
-                    "idSubject": {
+                    "deadline": {
+                        "format": "date",
                         "description": "",
                         "type": "string"
                     },
-                    "deadline": {
-                        "format": "date",
+                    "idCourse": {
                         "description": "",
                         "type": "string"
                     },
@@ -134,22 +130,28 @@
             },
             "CreateActivity": {
                 "description": "",
+                "required": [
+                    "idStudent",
+                    "idCourse",
+                    "deadline",
+                    "question"
+                ],
                 "type": "object",
                 "properties": {
                     "idStudent": {
                         "description": "",
                         "type": "string"
                     },
-                    "idSubject": {
-                        "description": "",
-                        "type": "string"
-                    },
-                    "question": {
+                    "idCourse": {
                         "description": "",
                         "type": "string"
                     },
                     "deadline": {
                         "format": "date",
+                        "description": "",
+                        "type": "string"
+                    },
+                    "question": {
                         "description": "",
                         "type": "string"
                     }
