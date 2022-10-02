@@ -23,9 +23,11 @@ const activityService = new ActivityService(new ActivityRepository());
 app.post('/atividades', async (req, res) => {
     const server = new RabbitmqServer('amqp://guest:guest@localhost:5672')
     await server.start();
-    await server.publishInQueue('atividades', JSON.stringify(req.body));
 
-    res.json({ message: 'Atividade criada!' });
+    const message = await activityService.findFinishedActivities();
+    await server.publishInQueue('atividades', JSON.stringify(message));
+
+    res.json({ message: 'Atividades enviadas!' });
 });
 
 // cria atividade
@@ -62,28 +64,41 @@ app.get('/activities', async (req, res) => {
 // busca atividade por id
 app.get('/activities/:id', async (req, res) => {
     const { id } = req.params;
-    const activity = await activityService.findById(id);
-    res.json(activity);
+
+    try {
+        const activity = await activityService.findById(id);
+        if (!activity) throw new Error('Atividade não encontrada');
+
+        res.status(200).json(activity);
+    } catch (error: any) {
+        res.status(404).json({ message: error.message });
+    }
 });
 
 // submete atividade
 app.put('/activities/:id', async (req, res) => {
     const { id } = req.params;
-    const { idStudent, answer } = req.body;
+    const { answer } = req.body;
 
-    const activity = await activityService.submitActivity(idStudent, id, answer)
-    res.json(activity);
+    try {
+        const activity = await activityService.submitActivity(id, answer);
+        if (!activity) throw new Error('Atividade não encontrada');
+
+        res.json(activity);
+    } catch (error: any) {
+        res.status(404).json({ message: error.message });
+    }
 });
 
 app.get('/activities/unfinished/:idStudent', async (req, res) => {
     const { idStudent } = req.params;
-    const unfinishedActivities = await activityService.findUnfinishedActivities(idStudent);
+    const unfinishedActivities = await activityService.findUnfinishedActivitiesByStudent(idStudent);
     res.json(unfinishedActivities);
 });
 
 app.get('/activities/finished/:idStudent', async (req, res) => {
     const { idStudent } = req.params;
-    const finishedActivities = await activityService.findFinishedActivities(idStudent);
+    const finishedActivities = await activityService.findFinishedActivitiesByStudent(idStudent);
     res.json(finishedActivities);
 });
 

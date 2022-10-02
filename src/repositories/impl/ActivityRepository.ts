@@ -10,7 +10,7 @@ export default class ActivityRepository implements IActivityRepository {
 
     public async update(activity: Activity): Promise<Activity> {
         const index = this.activities.findIndex(
-            (activity) => activity.id === activity.id
+            (a) => a.id === activity.id
         );
         this.activities[index] = activity;
         return activity;
@@ -25,9 +25,9 @@ export default class ActivityRepository implements IActivityRepository {
         return this.activities;
     }
 
-    public async findById(id: string): Promise<Activity> {
+    public async findById(id: string): Promise<Activity | undefined> {
         const activity = this.activities.find((activity) => activity.id === id);
-        return activity!!;
+        return activity;
     }
 
     public async findByStudentId(

@@ -12,7 +12,7 @@ export default class ActivityService {
         return activityCreated;
     }
 
-    public async update(activity: Activity): Promise<Activity> {
+    public async update(activity: Activity): Promise<Activity | null> {
         const activityUpdated = await this.activityRepository.update(activity);
         return activityUpdated;
     }
@@ -26,9 +26,8 @@ export default class ActivityService {
         return activities;
     }
 
-    public async findById(id: string): Promise<Activity> {
-        const activity = await this.activityRepository.findById(id);
-        return activity;
+    public async findById(id: string): Promise<Activity | undefined> {
+        return await this.activityRepository.findById(id);
     }
 
     public async findByStudentId(
@@ -40,7 +39,7 @@ export default class ActivityService {
         return activities;
     }
 
-    public async findUnfinishedActivities(idStudent: string): Promise<Activity[]> {
+    public async findUnfinishedActivitiesByStudent(idStudent: string): Promise<Activity[]> {
         const activities = await this.activityRepository.findByStudentId(
             idStudent
         );
@@ -50,7 +49,7 @@ export default class ActivityService {
         return unfinishedActivities;
     }
 
-    public async findFinishedActivities(idStudent: string): Promise<Activity[]> {
+    public async findFinishedActivitiesByStudent(idStudent: string): Promise<Activity[]> {
         const activities = await this.activityRepository.findByStudentId(
             idStudent
         );
@@ -60,14 +59,32 @@ export default class ActivityService {
         return finishedActivities;
     }
 
-    public async submitActivity(idStudent: string, idActivity: string, answer: string): Promise<Activity> {
-        const activity: Activity = await this.activityRepository.findById(idActivity);
+    public async findUnfinishedActivities(): Promise<Activity[]> {
+        const activities = await this.activityRepository.getAll();
+        const unfinishedActivities = activities.filter(
+            (activity) => activity.answer === null || activity.submissionDate === null
+        );
+        return unfinishedActivities;
+    }
 
-        const a = {
-            ...activity,
-            answer,
-            submissionDate: new Date()
+    public async findFinishedActivities(): Promise<Activity[]> {
+        const activities = await this.activityRepository.getAll();
+        const finishedActivities = activities.filter(
+            (activity) => activity.answer !== null && activity.submissionDate !== null
+        );
+        return finishedActivities;
+    }
+
+    public async submitActivity(idActivity: string, answer: string): Promise<Activity | undefined> {
+        const activity = await this.activityRepository.findById(idActivity);
+
+        if (!activity) {
+            return undefined;
         }
-        return await this.activityRepository.update(a)
+
+        activity.answer = answer;
+        activity.submissionDate = new Date();
+
+        return await this.activityRepository.update(activity)
     }
 } 
