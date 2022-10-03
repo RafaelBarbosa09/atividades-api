@@ -15,6 +15,9 @@ app.use(bodyParser.json());
 const activityService = new ActivityService(new ActivityRepository());
 
 // enfileira atividade
+/**
+ * @summary Submete atividade para correção(envia para fila)
+ */
 app.post('/activities/send', async (req, res) => {
     const server = new RabbitmqServer('amqp://guest:guest@localhost:5672')
     await server.start();
@@ -34,7 +37,10 @@ app.post('/activities/send', async (req, res) => {
     res.json({ message: 'Atividades enviadas!' });
 });
 
-// cria atividade
+/**
+ * @summary Cria uma atividade
+ * @returns {Object} activity
+ */
 app.post('/activities/', async (req, res) => {
     const {
         idStudent,
@@ -59,13 +65,21 @@ app.post('/activities/', async (req, res) => {
     res.status(201).json(activityCreated);
 });
 
-// retorna todas as atividades
+/**
+ * @param {string} idStudent
+ * @returns {Array} activities
+ * @summary retorna todas as atividades
+ */
 app.get('/activities', async (req, res) => {
     const activities = await activityService.getAll();
     res.json(activities);
 });
 
-// busca atividade por id
+/**
+ * @param {string} id
+ * @returns {Object} activity
+ * @summary busca atividade por id
+ */
 app.get('/activities/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -79,7 +93,11 @@ app.get('/activities/:id', async (req, res) => {
     }
 });
 
-// submete atividade
+/**
+ * @param {string} id
+ * @returns {Object} activity
+ * @summary submete atividade(responde a questão)
+ */
 app.put('/activities/:id', async (req, res) => {
     const { id } = req.params;
     const { answer } = req.body;
@@ -94,12 +112,22 @@ app.put('/activities/:id', async (req, res) => {
     }
 });
 
+/**
+ * @param {string} idStudent
+ * @returns {Array} activities
+ * @summary lista todas as atividades não finalizadas(não respondidas) de um aluno
+ */
 app.get('/activities/unfinished/:idStudent', async (req, res) => {
     const { idStudent } = req.params;
     const unfinishedActivities = await activityService.findUnfinishedActivitiesByStudent(idStudent);
     res.json(unfinishedActivities);
 });
 
+/**
+ * @param {string} idStudent
+ * @returns {Array} activities
+ * @summary lista todas as atividades finalizadas(respondidas) de um aluno
+ */
 app.get('/activities/finished/:idStudent', async (req, res) => {
     const { idStudent } = req.params;
     const finishedActivities = await activityService.findFinishedActivitiesByStudent(idStudent);

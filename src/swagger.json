@@ -41,7 +41,8 @@
                         },
                         "description": "activities"
                     }
-                }
+                },
+                "description": "Retorna todas as atividades."
             },
             "post": {
                 "requestBody": {
@@ -86,7 +87,257 @@
                         },
                         "description": "Activity Created"
                     }
-                }
+                },
+                "description": "Salva uma atividade."
+            }
+        },
+        "/activities/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "examples": {
+                            "id": {
+                                "value": "\"952c5362-d618-4d19-ab6e-415b137d7f44\""
+                            }
+                        },
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Activity"
+                                },
+                                "examples": {
+                                    "Activity": {
+                                        "value": {
+                                            "id": "952c5362-d618-4d19-ab6e-415b137d7f44",
+                                            "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe06517",
+                                            "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                            "deadline": "2022-09-29T00:00:00.000Z",
+                                            "question": "Quanto é 2 + 2 ?",
+                                            "answer": "a resposta é 4",
+                                            "submissionDate": "2022-10-01T20:58:21.885Z"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Activity"
+                    }
+                },
+                "description": "Retorna uma atividade por id."
+            },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Answer"
+                            },
+                            "examples": {
+                                "Answer": {
+                                    "value": {
+                                        "answer": "a resposta é 4"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "examples": {
+                            "id": {
+                                "value": "\"5aa19a84-4250-4812-97b8-5dec7af38efa\""
+                            }
+                        },
+                        "name": "id",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Activity"
+                                },
+                                "examples": {
+                                    "Activity": {
+                                        "value": {
+                                            "id": "5aa19a84-4250-4812-97b8-5dec7af38efa",
+                                            "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe06517",
+                                            "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                            "deadline": "2022-09-29T00:00:00.000Z",
+                                            "question": "Quanto é 2 + 2 ?",
+                                            "answer": "a resposta é 4",
+                                            "submissionDate": "2022-10-03T04:59:29.310Z"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "submited"
+                    }
+                },
+                "description": "Submete atividade para correção."
+            }
+        },
+        "/activities/unfinished/{idStudent}": {
+            "get": {
+                "parameters": [
+                    {
+                        "examples": {
+                            "idStudent": {
+                                "value": "\"9ef18609-056c-4f6f-9d09-6893fbe06517\""
+                            }
+                        },
+                        "name": "idStudent",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Activity"
+                                    }
+                                },
+                                "examples": {
+                                    "Activities": {
+                                        "value": [
+                                            {
+                                                "id": "52c1492c-061c-4a1f-b6f4-72269db0a033",
+                                                "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe06517",
+                                                "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                                "deadline": "2022-09-29T00:00:00.000Z",
+                                                "question": "Quanto é 2 + 2 ?"
+                                            },
+                                            {
+                                                "id": "28177349-a5fe-4226-b1d3-cf2dce9505ba",
+                                                "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe06517",
+                                                "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                                "deadline": "2022-09-29T00:00:00.000Z",
+                                                "question": "Quanto é 2 + 2 ?"
+                                            },
+                                            {
+                                                "id": "6ef423d3-8e17-4bd8-8f0a-a1e0b1f2bfd2",
+                                                "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe06517",
+                                                "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                                "deadline": "2022-09-29T00:00:00.000Z",
+                                                "question": "Quanto é 2 + 2 ?"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "description": "activities"
+                    }
+                },
+                "description": "Busca todas as atividades não finalizadas pelo estudante. Ou seja, atividades não respondidas."
+            }
+        },
+        "/activities/finished/{idStudent}": {
+            "get": {
+                "parameters": [
+                    {
+                        "examples": {
+                            "idStudent": {
+                                "value": "\"9ef18609-056c-4f6f-9d09-6893fbe06517\""
+                            }
+                        },
+                        "name": "idStudent",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Activity"
+                                    }
+                                },
+                                "examples": {
+                                    "Activities": {
+                                        "value": [
+                                            {
+                                                "id": "952c5362-d618-4d19-ab6e-415b137d7f44",
+                                                "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe06517",
+                                                "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                                "deadline": "2022-09-29T00:00:00.000Z",
+                                                "question": "Quanto é 2 + 2 ?",
+                                                "answer": "a resposta é 4",
+                                                "submissionDate": "2022-10-01T20:58:21.885Z"
+                                            },
+                                            {
+                                                "id": "952c5362-d618-4d19-ab6e-415b137d7f44",
+                                                "idStudent": "9ef18609-056c-4f6f-9d09-6893fbe06517",
+                                                "idCourse": "af52d069-43aa-40f8-a34b-c029eecfd7b8",
+                                                "deadline": "2022-09-29T00:00:00.000Z",
+                                                "question": "Quanto é 2 + 2 ?",
+                                                "answer": "a resposta é 4",
+                                                "submissionDate": "2022-10-01T20:58:21.885Z"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "description": "activities finished"
+                    }
+                },
+                "description": "Busca todas as atividades finalizadas."
+            }
+        },
+        "/activities/send": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                },
+                                "examples": {
+                                    "Message": {
+                                        "value": {
+                                            "message": "Atividades enviadas!"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Message"
+                    }
+                },
+                "description": "Envia todas as atividades submetidas pelo aluno para correção."
             }
         }
     },
@@ -152,6 +403,29 @@
                         "type": "string"
                     },
                     "question": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "Answer": {
+                "description": "answer ",
+                "required": [
+                    "answer"
+                ],
+                "type": "object",
+                "properties": {
+                    "answer": {
+                        "description": "",
+                        "type": "string"
+                    }
+                }
+            },
+            "Message": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                    "message": {
                         "description": "",
                         "type": "string"
                     }
