@@ -13,19 +13,24 @@ app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.json({ message: 'Hello atividades!' });
-});
-
 const activityService = new ActivityService(new ActivityRepository());
 
 // enfileira atividade
-app.post('/atividades', async (req, res) => {
+app.post('/activities/send', async (req, res) => {
     const server = new RabbitmqServer('amqp://guest:guest@localhost:5672')
     await server.start();
 
-    const message = await activityService.findFinishedActivities();
-    await server.publishInQueue('atividades', JSON.stringify(message));
+    try {
+        const activities = await activityService.findFinishedActivities();
+        if (!activities) {
+            throw new Error('Nenhuma atividade encontrada!');
+        }
+
+        await server.publishInQueue('atividades', JSON.stringify(activities));
+    } catch (error: any) {
+        res.status(404).json({ message: error.message });
+    }
+
 
     res.json({ message: 'Atividades enviadas!' });
 });
