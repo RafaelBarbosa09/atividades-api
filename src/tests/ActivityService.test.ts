@@ -1,5 +1,3 @@
-// save activity test case
-
 import ActivityRepository from "../repositories/impl/ActivityRepository";
 import ActivityService from "../services/ActivityService";
 
