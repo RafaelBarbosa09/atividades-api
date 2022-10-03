@@ -14,7 +14,6 @@ app.use(bodyParser.json());
 
 const activityService = new ActivityService(new ActivityRepository());
 
-// enfileira atividade
 /**
  * @summary Submete atividade para correção(envia para fila)
  */
