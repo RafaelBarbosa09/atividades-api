@@ -1,3 +1,4 @@
+import { uuid } from "uuidv4";
 import IActivityRepository from "../repositories/IActivityRepository";
 
 export default class ActivityService {
@@ -8,6 +9,7 @@ export default class ActivityService {
     }
 
     public async createActivity(activity: Activity): Promise<Activity> {
+        activity.id = uuid();
         const activityCreated = await this.activityRepository.save(activity);
         return activityCreated;
     }

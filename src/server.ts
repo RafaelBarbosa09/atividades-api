@@ -1,5 +1,4 @@
 import express from 'express';
-import { uuid } from 'uuidv4';
 import RabbitmqServer from './rabbitmq-server';
 import ActivityRepository from './repositories/impl/ActivityRepository';
 import ActivityService from './services/ActivityService';
@@ -47,7 +46,7 @@ app.post('/activities/', async (req, res) => {
     const deadlineFromDate: Date = new Date(deadline);
 
     const activity = {
-        id: uuid(),
+        id: null,
         idStudent,
         idCourse,
         deadline: deadlineFromDate,
